@@ -1,0 +1,5 @@
+.Rproj.user
+.Rproj
+tests/output/
+tests/input/screen3.count_data.correct.dk-batch-corrected.csv
+tests/R/generate-test-data.R
