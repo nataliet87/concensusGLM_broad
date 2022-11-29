@@ -90,6 +90,7 @@ getBatchEffects.concensusWorkflow <- function(x, ...) {
 #' @rdname getBatchEffects
 #' @importFrom magrittr %>%
 #' @importFrom errR %except%
+#' @importFrom rlang .data
 #' @export
 getBatchEffects.concensusDataSet <- function(x, grouping=c('compound', 'concentration', 'strain'), ...) {
 
@@ -150,7 +151,8 @@ getBatchEffects.concensusDataSet <- function(x, grouping=c('compound', 'concentr
                                   x$data %>%
                                     dplyr::filter(!negative_control) %>%
                                     dplyr::filter_(paste0(be, '%in% c(\'', pyjoin(missing_levels, '\', \''), '\')')) %>%
-                                    dplyr::group_by_(.dots=be) %>%
+                                    #dplyr::group_by_(.dots=be) %>%
+                                    dplyr::group_by_(.data[[be]]) %>%
                                     dplyr::sample_n(average_representation, replace=TRUE))
     }
 

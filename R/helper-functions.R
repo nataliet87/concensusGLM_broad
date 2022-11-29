@@ -79,7 +79,7 @@ capitalize <- function(x) {
 
 }
 
-#' @importFrom magrittr %>
+#' @importFrom magrittr %>%
 #' @importFrom rlang .data
 column2vector <- function (x, column) x %>% dplyr::ungroup() %>% dplyr::select(.data[[column]]) %>% unlist()
 #column2vector <- function (x, column) x %>% dplyr::ungroup() %>% dplyr::select_(column) %>% unlist()

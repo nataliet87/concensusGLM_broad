@@ -120,6 +120,7 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
 
   }
 
+  print.data.frame(head())
   data_ <- clean(data_, threshold=threshold)
 
   if ( pseudostrains ) {
