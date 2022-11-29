@@ -1,4 +1,4 @@
-# concensusGLM -- untested branch
+# concensusGLM -- working to get functional with dplyr > 0.7
 
 Forked from https://github.com/broadinstitute/concensusGLM
 
