@@ -1,25 +1,8 @@
-[![Travis-CI Build Status](https://travis-ci.org/eachanjohnson/concensusGLM.svg?branch=master)](https://travis-ci.org/eachanjohnson/concensusGLM)
+# concensusGLM -- untested branch
 
-# concensusGLM
+Forked from https://github.com/broadinstitute/concensusGLM
 
-R package to facilitate microbial fitness inference (using Generalized Linear Models) from barcode counts based on the Negative Binomial (NB) distribution. 
-
-Designed for ultra-high throughput screening with (more than) tens of millions of observations. This means:
-
-- Estimation of batch effects based on known experimental metadata. This is used in final estimation of effect size, and also in the estimation of the NB dispersion parameter to guard against overly conservative p-values
-- Computational short-cuts which allow very large datasets to be analyzed without large `glm` objects causing memory explosions
-- Support for parallelization across cores or GridEngine cluster jobs
-- Support for checkpointing in case of intermediate failure
-
-## Installation
-
-Not yet on CRAN or BioconductoR, so you need to install using devtools.
-
-In an R session:
-
-`devtools::install_github('eachanjohnson/concensusGLM')`
-
-This will install the library in your default path. Check `.libPaths()` to see what that is.
+Eachan O. Johnson *et. al.*, [New inhibitors of *Mycobacterium tuberculosis* identified using systems chemical biology](https://doi.org/10.1101/396440), *bioRxiv*, Aug 2018, doi: [10.1101/396440](https://doi.org/10.1101/396440)
 
 ## Basic usage
 
@@ -65,11 +48,6 @@ Applying the methods to a `concensusDataSet` will execute the method immediately
 
 You can also `scatter` a `concenusWorkflow` based on categorical columns in the input data set to allow chunking for embarassingly parallel computation when `execute` is called. This can be done on the local machine using multiple cores, or using a GridEngine style cluster like SGE or UGE, in which case the submission script `exec/sge-template.sh` may need to be edited for your specific cluster.
 
-## Citation
-
-Eachan O. Johnson *et. al.*, [New inhibitors of *Mycobacterium tuberculosis* identified using systems chemical biology](https://doi.org/10.1101/396440), *bioRxiv*, Aug 2018, doi: [10.1101/396440](https://doi.org/10.1101/396440)
-
-## See also
 
 Dependencies:
 
@@ -84,8 +62,3 @@ Dependencies:
 - [readr](https://github.com/hadley/readr) for fast loading of large CSV files
 - [workflows](https://github.com/eachanjohnson/workflows)
 
-Similar approaches include but are not limited to:
-
-- [DESeq2](https://github.com/mikelove/DESeq2)
-- [edgeR](https://doi.org/doi:10.18129/B9.bioc.edgeR)
-- [limma](https://doi.org/doi:10.18129/B9.bioc.limma)
