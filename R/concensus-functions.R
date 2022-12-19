@@ -87,7 +87,9 @@ capitalize <- function(x) {
 }
 
 #' @importFrom magrittr %>%
-column2vector <- function (x, column) x %>% dplyr::ungroup() %>% dplyr::select_(column) %>% unlist()
+#' @importFrom rlang .data
+column2vector <- function (x, column) x %>% dplyr::ungroup() %>% dplyr::select(.data[[column]]) %>% unlist()
+#column2vector <- function (x, column) x %>% dplyr::ungroup() %>% dplyr::select_(column) %>% unlist()
 
 #' @importFrom magrittr %>%
 get_unique_values <- function(x, column, output.class=NULL) {
@@ -105,13 +107,15 @@ get_unique_values <- function(x, column, output.class=NULL) {
 
 
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 get_compound_core <- function(x, column='compound') {
 
   library('dplyr')
 
   new_df <- x %>%
     dplyr::ungroup() %>%
-    dplyr::select_(column) %>%
+    #dplyr::select_(column) %>%
+    dplyr::select(.data[[column]]) %>%
     dplyr::distinct() %>%
     dplyr::arrange() %>%
     dplyr::mutate_(compound_stem=paste0('sapply(as.character(', column, '), function(x) strsplit(x, "-", fixed=TRUE)[[1]][2])'))

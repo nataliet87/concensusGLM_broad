@@ -2,9 +2,9 @@
 % Please edit documentation in R/concensus-statistical-methods.R
 \name{getBatchEffects}
 \alias{getBatchEffects}
-\alias{getBatchEffects.concensusDataSet}
-\alias{getBatchEffects.concensusWorkflow}
 \alias{getBatchEffects.default}
+\alias{getBatchEffects.concensusWorkflow}
+\alias{getBatchEffects.concensusDataSet}
 \title{Get experimental batch effects}
 \usage{
 getBatchEffects(x, ...)
@@ -13,8 +13,7 @@ getBatchEffects(x, ...)
 
 \method{getBatchEffects}{concensusWorkflow}(x, ...)
 
-\method{getBatchEffects}{concensusDataSet}(x, grouping = c("compound",
-  "concentration", "strain"), ...)
+\method{getBatchEffects}{concensusDataSet}(x, grouping = c("compound", "concentration", "strain"), ...)
 }
 \arguments{
 \item{x}{concensusWorkflow or concensusDataSet.}
@@ -44,4 +43,3 @@ If the model fitting fails, rather than throw off the whole pipeline, a \code{pr
 \seealso{
 \link{glm}
 }
-

@@ -100,6 +100,8 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
   println('Loading dataset from', data_filename, '...')
   if ( test ) data_ <- readr::read_csv(data_filename, progress=TRUE, n_max=5e6, col_types=readr::cols(concentration=readr::col_double()))
   else        data_ <- readr::read_csv(data_filename, progress=TRUE, col_types=readr::cols(concentration=readr::col_double()))
+
+  println("!! running check headers")
   check_headers(data_, essential_headers=c('compound', 'concentration', 'strain', 'plate_name', 'count'))
 
   if ( ! 'well' %in% names(data_) & all(c('row', 'column') %in% names(data_)) ) {
@@ -120,6 +122,7 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
 
   }
 
+  println("!! cleaning data")
   data_ <- clean(data_, threshold=threshold)
 
   if ( pseudostrains ) {
@@ -143,17 +146,16 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
 
   }
 
+  println("!!! DATASET LOADED !!!")
+
   if ( ! is.null(annotation_filename) ) {
+
+    println("annotation not null")
 
     println('Loading annotations from', annotation_filename, '...')
     annotations <- readr::read_csv(annotation_filename)
 
-  }
-
-  annotation_columns <- names(annotations)
-
-  if ( ! is.null(annotation_filename) ) {
-
+    annotation_columns <- names(annotations)
     intersection <- intersect(names(data_), annotation_columns)
 
     if ( length(intersection) == 0 ) stop('No columns in common between data and annotations.\n')

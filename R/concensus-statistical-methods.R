@@ -90,6 +90,7 @@ getBatchEffects.concensusWorkflow <- function(x, ...) {
 #' @rdname getBatchEffects
 #' @importFrom magrittr %>%
 #' @importFrom errR %except%
+#' @importFrom rlang .data
 #' @export
 getBatchEffects.concensusDataSet <- function(x, grouping=c('compound', 'concentration', 'strain'), ...) {
 
@@ -150,6 +151,7 @@ getBatchEffects.concensusDataSet <- function(x, grouping=c('compound', 'concentr
                                   x$data %>%
                                     dplyr::filter(!negative_control) %>%
                                     dplyr::filter_(paste0(be, '%in% c(\'', pyjoin(missing_levels, '\', \''), '\')')) %>%
+                                    #dplyr::group_by_(.data[[be]]) %>%
                                     dplyr::group_by_(.dots=be) %>%
                                     dplyr::sample_n(average_representation, replace=TRUE))
     }
@@ -400,7 +402,8 @@ resample.concensusDataSet <- function(x, n_replicates=2, n_samples=10000, preval
 
   }
 
-  unique_groupings <- negative_control_data %>% dplyr::select_(.dots=grouping) %>% distinct()
+  unique_groupings <- negative_control_data %>% dplyr::select(!!!grouping) %>% distinct()
+  #unique_groupings <- negative_control_data %>% dplyr::select_(.dots=grouping) %>% distinct()
 
   println('Resampling', n_samples, 'from', nrow(unique_groupings), 'negative control wells...')
   random_sample_of_groupings <- unique_groupings %>%

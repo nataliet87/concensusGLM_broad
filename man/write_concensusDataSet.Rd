@@ -4,8 +4,15 @@
 \alias{write_concensusDataSet}
 \title{Write ConcensusDataSet to disk}
 \usage{
-write_concensusDataSet(x, filename, clean = TRUE, input_csv = TRUE,
-  output_csv = TRUE, output_matrix = FALSE, ...)
+write_concensusDataSet(
+  x,
+  filename,
+  clean = TRUE,
+  input_csv = TRUE,
+  output_csv = TRUE,
+  output_matrix = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{ConcensusDataSet.}
@@ -28,4 +35,3 @@ Serialize ConcensusDataSet to disk under \code{filename}. A wrapper to \code{wri
 \seealso{
 \link{saveRDS}, \link{write_workflow}
 }
-

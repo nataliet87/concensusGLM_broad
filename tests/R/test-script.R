@@ -1,18 +1,18 @@
 library(concensusGLM)
 
-if ( interactive() ) {
+#if ( interactive() ) {
 
-  file_inputs <- list(data=file.path('tests/input/count-data.csv'),
-                      annotation=file.path('tests/input/annotations.csv'))
-  controls    <- list(positive='BRD-K01507359',
-                      negative='untreated')
+file_inputs <- list(data=file.path('eachanjohnson-concensusGLM-e884c65/tests/input/count-data.csv'),
+                    annotation=file.path('eachanjohnson-concensusGLM-e884c65/tests/input/annotations.csv'))
+controls    <- list(positive='BRD-K01507359',
+                    negative='untreated')
 
-} else {
-
-  file_inputs <- get_file_inputs(commandArgs())
-  controls <- get_controls(commandArgs())
-
-}
+#} else {
+#
+#  file_inputs <- get_file_inputs(commandArgs())
+#  controls <- get_controls(commandArgs())
+#
+#}
 
 
 dir_tree <- directoryTree(path=file.path('tests', 'output'))

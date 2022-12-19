@@ -21,16 +21,16 @@ main <- function(cl_options) {
 
   dir_tree <- directoryTree(path=working_dir)
 
+  print(file_inputs$data)
+  print(file_inputs$meta)
+
   concensus_data <- concensusDataSetFromFile(data_filename=file_inputs$data,
                                              annotation_filename=file_inputs$meta,
                                              output_path=dir_tree$top,
                                              controls=controls,
-                                             
                                              pseudostrains = FALSE,
-
                                              # don't discard plates and strains in in interactive mode
                                              threshold=ifelse(cl_options[['no-count-threshold']], 0, 1000),
-
                                              checkpoint=cl_options$checkpoint)
 
   println('Analysis output will be in', concensus_data$pipelines[[1]]$working_directory)

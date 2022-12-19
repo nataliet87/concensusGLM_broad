@@ -15,6 +15,7 @@ clean.default <- function(x, ...) stop('Can\'t clean', class(x), '\n')
 
 #' @rdname clean
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 clean.data.frame <- function(x, threshold=100, plate_fraction=0.6, ...) {
 
@@ -46,16 +47,18 @@ clean.data.frame <- function(x, threshold=100, plate_fraction=0.6, ...) {
 
   # remove plates with low usage
 
-  unused_plates <- x %>%
-    group_by(plate_name) %>%
-    summarise(sum_count=sum(count)) %>%
-    ungroup() %>%
-    filter(sum_count <= 1000 * threshold) %>%
-    get_unique_values('plate_name')
-
-  println('Removing plates with total counts <', 1000 * threshold + 1, ':', paste(unused_plates, collapse=', '))
-
-  x <- x %>% filter(! plate_name %in% unused_plates)
+  #unused_plates <- x %>%
+  #  group_by(plate_name) %>%
+  #  #mutate(sum_count=sum(count)) %>%
+  #  summarise(sum_count=sum(count)) %>%
+  #  ungroup() %>%
+  #  #filter(.data[[sum_count]] <= 1000 * threshold) %>%
+  #  filter(sum_count <= 1000 * threshold) %>%
+  #  get_unique_values('plate_name')
+  #
+  #println('Removing plates with total counts <', 1000 * threshold + 1, ':', paste(unused_plates, collapse=', '))
+  #
+  #x <- x %>% filter(! plate_name %in% unused_plates)
 
 }
 

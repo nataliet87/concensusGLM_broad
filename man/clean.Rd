@@ -2,8 +2,8 @@
 % Please edit documentation in R/concensus-methods.R
 \name{clean}
 \alias{clean}
-\alias{clean.data.frame}
 \alias{clean.default}
+\alias{clean.data.frame}
 \title{Clean up ConcensusGLM data}
 \usage{
 clean(x, ...)
@@ -27,4 +27,3 @@ Cleaned data.frame
 Clean up ConcensusGLM data. Removes strains with total count across data below \code{threshold} and plates
 with total counts below 1000 x \code{threshold}
 }
-

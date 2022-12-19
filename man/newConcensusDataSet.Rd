@@ -4,8 +4,12 @@
 \alias{newConcensusDataSet}
 \title{Set up analysis container for ConcensusGLM}
 \usage{
-newConcensusDataSet(checkpoint = FALSE, working_directory = ".",
-  load_checkpoint = NULL, ...)
+newConcensusDataSet(
+  checkpoint = FALSE,
+  working_directory = ".",
+  load_checkpoint = NULL,
+  ...
+)
 }
 \arguments{
 \item{checkpoint}{Logical. Save intermediate results as checkpoints?}
@@ -25,4 +29,3 @@ Set up analysis container for ConcensusGLM. This is the workhorse function; most
 \seealso{
 \link{workflows::newWorkflow}, \link{concensusDataSetFromFile}
 }
-

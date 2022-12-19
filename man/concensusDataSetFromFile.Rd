@@ -4,10 +4,19 @@
 \alias{concensusDataSetFromFile}
 \title{Set up analysis container for ConcensusGLM}
 \usage{
-concensusDataSetFromFile(data_filename, annotation_filename = NULL,
-  output_path = ".", controls = NULL, rename = NULL, test = FALSE,
-  checkpoint = FALSE, threshold = 100, spike_in = "^intcon",
-  pseudostrains = TRUE, ...)
+concensusDataSetFromFile(
+  data_filename,
+  annotation_filename = NULL,
+  output_path = ".",
+  controls = NULL,
+  rename = NULL,
+  test = FALSE,
+  checkpoint = FALSE,
+  threshold = 100,
+  spike_in = "^intcon",
+  pseudostrains = TRUE,
+  ...
+)
 }
 \arguments{
 \item{data_filename}{Character. Path to a table of counts.}
@@ -70,4 +79,3 @@ that there are at least 2 negative control observations.
 \seealso{
 \link{newWorkflow}, \link{pipeline}, \link{concensusDataSetFromFile}
 }
-

@@ -2,9 +2,9 @@
 % Please edit documentation in R/concensus-statistical-methods.R
 \name{callHits}
 \alias{callHits}
-\alias{callHits.concensusDataSet}
-\alias{callHits.concensusWorkflow}
 \alias{callHits.default}
+\alias{callHits.concensusWorkflow}
+\alias{callHits.concensusDataSet}
 \title{Call hits based on p-value and resampled data}
 \usage{
 callHits(x, ...)
@@ -13,8 +13,13 @@ callHits(x, ...)
 
 \method{callHits}{concensusWorkflow}(x, resampled_x = NULL, ...)
 
-\method{callHits}{concensusDataSet}(x, method = "resampling",
-  false_discovery_rate. = 0.05, prevalence = 0.01, ...)
+\method{callHits}{concensusDataSet}(
+  x,
+  method = "resampling",
+  false_discovery_rate. = 0.05,
+  prevalence = 0.01,
+  ...
+)
 }
 \arguments{
 \item{x}{concensusWorkflow or concensusDataSet.}
@@ -36,4 +41,3 @@ Call hits based on p-values and resampled data.
 \details{
 Resampled data are used to calaulate FDRs at a sliding p-value cutoff.
 }
-
