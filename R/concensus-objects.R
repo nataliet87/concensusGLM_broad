@@ -101,7 +101,6 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
   if ( test ) data_ <- readr::read_csv(data_filename, progress=TRUE, n_max=5e6, col_types=readr::cols(concentration=readr::col_double()))
   else        data_ <- readr::read_csv(data_filename, progress=TRUE, col_types=readr::cols(concentration=readr::col_double()))
 
-  println("!! running check headers")
   check_headers(data_, essential_headers=c('compound', 'concentration', 'strain', 'plate_name', 'count'))
 
   if ( ! 'well' %in% names(data_) & all(c('row', 'column') %in% names(data_)) ) {
@@ -122,7 +121,6 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
 
   }
 
-  println("!! cleaning data")
   data_ <- clean(data_, threshold=threshold)
 
   if ( pseudostrains ) {
@@ -150,8 +148,6 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
 
   if ( ! is.null(annotation_filename) ) {
 
-    println("annotation not null")
-
     println('Loading annotations from', annotation_filename, '...')
     annotations <- readr::read_csv(annotation_filename)
 
@@ -162,6 +158,10 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
 
     data_ <- data_ %>% dplyr::inner_join(annotations, by=intersection)
 
+  } else {
+
+    annotation_columns <- NULL
+
   }
 
   if ( ! is.null(controls) ) {
@@ -169,6 +169,7 @@ concensusDataSetFromFile <- function(data_filename, annotation_filename=NULL, ou
     if ( ! 'negative' %in% names(controls) ) stop('List of controls must include an element named "negative".\n')
 
     println('Assigning negative controls based on compound matching "', controls$negative, '"')
+
     data_ <- data_ %>%
       dplyr::mutate(negative_control=grepl(controls$negative, compound))
 

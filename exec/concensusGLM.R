@@ -21,9 +21,6 @@ main <- function(cl_options) {
 
   dir_tree <- directoryTree(path=working_dir)
 
-  print(file_inputs$data)
-  print(file_inputs$meta)
-
   concensus_data <- concensusDataSetFromFile(data_filename=file_inputs$data,
                                              annotation_filename=file_inputs$meta,
                                              output_path=dir_tree$top,

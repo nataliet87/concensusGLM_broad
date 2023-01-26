@@ -60,6 +60,8 @@ clean.data.frame <- function(x, threshold=100, plate_fraction=0.6, ...) {
   #
   #x <- x %>% filter(! plate_name %in% unused_plates)
 
+  return(x)
+
 }
 
 #' @title Print ConcensusWorkflow
@@ -245,6 +247,8 @@ write_plaintext.concensusWorkflow <- function(x, filename,
 
 
   if ( output_csv ) {
+
+    print(x$pipelines)
 
     if ( ! 'model_parameters' %in% names(x$pipelines[[1]]$data) )
       stop('Analysis not complete; can\'t write inference CSV' )

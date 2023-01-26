@@ -34,10 +34,11 @@ getRoughDispersions.concensusDataSet <- function(x, grouping=c('compound', 'conc
   println('Calculating rough dispersions')
 
   x$mean_variance_relationship <- x$data %>%
-    dplyr::group_by_(.dots=grouping) %>%
+    #dplyr::group_by_(.dots=grouping) %>%
+    dplyr::group_by(across(.cols=grouping)) %>%
     dplyr::summarize(var_count=var(count),
               mean_count=mean(count)) %>%
-    dplyr:: ungroup() %>%
+    dplyr::ungroup() %>%
     dplyr::mutate(mean_count_sq=mean_count^2)
 
   # NB model: var = mu + alpha * mu^2
@@ -136,7 +137,8 @@ getBatchEffects.concensusDataSet <- function(x, grouping=c('compound', 'concentr
     not_represented_yet    <- length(missing_levels) > 0
 
     average_representation <- untreated_data %>%
-      dplyr::group_by_(.dots=be) %>%
+      #dplyr::group_by_(.dots=be) %>%
+      dplyr::group_by(across(.cols=be)) %>%
       dplyr::summarize(n_times=n()) %>%
       dplyr::select(n_times) %>%
       unlist() %>% mean() %>% as.integer()
@@ -150,9 +152,11 @@ getBatchEffects.concensusDataSet <- function(x, grouping=c('compound', 'concentr
       untreated_data <- bind_rows(untreated_data,
                                   x$data %>%
                                     dplyr::filter(!negative_control) %>%
-                                    dplyr::filter_(paste0(be, '%in% c(\'', pyjoin(missing_levels, '\', \''), '\')')) %>%
-                                    #dplyr::group_by_(.data[[be]]) %>%
-                                    dplyr::group_by_(.dots=be) %>%
+                                    #dplyr::filter_(paste0(be, '%in% c(\'', pyjoin(missing_levels, '\', \''), '\')')) %>%
+                                    dplyr::filter(!! rlang::parse_expr(paste0(be, ' %in% c(\'',
+                                                                              pyjoin(missing_levels, '\', \''), '\')')) ) %>%
+                                    #dplyr::group_by_(.dots=be) %>%
+                                    dplyr::group_by(across(.cols=be)) %>%
                                     dplyr::sample_n(average_representation, replace=TRUE))
     }
 
@@ -302,7 +306,8 @@ getFinalModel.concensusDataSet <- function(x, conditions=c('compound', 'concentr
 
   x$data <- x$data %>%
     dplyr::ungroup() %>%
-    dplyr::mutate_(.dots=c(condition_group=paste0('paste(', pyjoin(conditions, ', '), ', sep="__")')))
+    #dplyr::mutate_(.dots=c(condition_group=paste0('paste(', pyjoin(conditions, ', '), ', sep="__")')))
+    dplyr::mutate(condition_group = !!rlang::parse_expr(paste0('paste(', pyjoin(conditions, ', '), ', sep="__")')))
 
   negative_controls <- x$data %>% dplyr::filter(negative_control)
 
@@ -332,7 +337,8 @@ getFinalModel.concensusDataSet <- function(x, conditions=c('compound', 'concentr
                                n_replicates=nrow(.))) ) #%except% data.frame(NULL))
 
   intercepts <- negative_controls %>%
-    dplyr::group_by_(.dots=c(grouping)) %>%
+    #dplyr::group_by_(.dots=c(grouping)) %>%
+    dplyr::group_by(across(.cols=c(grouping))) %>%
     dplyr::summarize(mean_intercept=mean(predicted_null_count, na.rm=TRUE),
                      var_intercept=var(predicted_null_count, na.rm=TRUE))
 
@@ -341,6 +347,13 @@ getFinalModel.concensusDataSet <- function(x, conditions=c('compound', 'concentr
   splitter_expression <- paste0('vapply(condition_group, function(z) strsplit(z, "__", fixed=TRUE)[[1]][',
                                 seq_along(conditions), '], "a")') %>%
     setNames(conditions)
+
+  print("!!! concensus dataset eval !!!")
+
+  print(splitter_expression)
+
+  print("BEFORE:")
+  print(names(x$model_parameters))
 
   #print(splitter_expression)
 
@@ -351,6 +364,11 @@ getFinalModel.concensusDataSet <- function(x, conditions=c('compound', 'concentr
     dplyr::left_join(x$mean_variance_relationship) %>%
     dplyr::mutate_(.dots=splitter_expression)
 
+  print("AFTER")
+  print(names(x$model_parameters))
+
+
+  println("Returning final model concensus dataset ")
   return ( x )
 
 }

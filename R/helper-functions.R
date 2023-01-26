@@ -120,9 +120,11 @@ get_compound_core <- function(x, column='compound') {
 #' @importFrom magrittr %>%
 make_columns_factors <- function(x, columns) {
 
-  mutate_string <- paste0('as.factor(', columns, ')') %>% setNames(columns)
+  #mutate_string <- paste0('as.factor(', columns, ')') %>% setNames(columns)
+  #x <- x %>% dplyr:: mutate_(.dots=mutate_string)
 
-  x <- x %>% dplyr::mutate_(.dots=mutate_string)
+  x <- x %>% dplyr::mutate(dplyr::across(columns, as.factor))
+
 
   return ( x )
 
@@ -291,6 +293,8 @@ calculate_roc_stats <- function(x) {
 #' @importFrom magrittr %>%
 calculate_roc_table <- function(x, positive_compound, cutoff_column, cutoffs, prevalence) {
 
+  print(cutoff_column)
+
   n_positives <- nrow(dplyr::filter(x, grepl(positive_compound, compound)))
 
   n_negatives <- nrow(dplyr::filter(x, !grepl(positive_compound, compound)))
@@ -310,13 +314,20 @@ calculate_roc_table <- function(x, positive_compound, cutoff_column, cutoffs, pr
     tidyr::crossing(cutoff=cutoffs) %>%
     dplyr::mutate(condition_positive=grepl(positive_compound, compound),
                   condition_negative=! condition_positive) %>%
-    dplyr::mutate_(.dots=c(called_positive=paste(cutoff_column, '<= cutoff'))) %>%
+    #dplyr::mutate_(.dots=c(called_positive=paste(cutoff_column, '<= cutoff'))) %>%
+    dplyr::mutate(called_positive = .data[[cutoff_column]] <= cutoff) %>%
     dplyr::mutate(called_negative=!called_positive,
                   true_positive=condition_positive & called_positive,
                   false_positive=condition_negative & called_positive,
                   true_negative=condition_negative & called_negative,
                   false_negative=condition_positive & called_negative,
                   correct=true_positive | true_negative)
+
+
+    #mutate_string <- paste0('as.factor(', columns, ')') %>% setNames(columns)
+  #x <- x %>% dplyr:: mutate_(.dots=mutate_string)
+
+  x <- x %>% dplyr::mutate(dplyr::across(columns, as.factor))
 
   return ( x )
 

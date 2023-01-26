@@ -127,9 +127,10 @@ get_compound_core <- function(x, column='compound') {
 #' @importFrom magrittr %>%
 make_columns_factors <- function(x, columns) {
 
-  mutate_string <- paste0('as.factor(', columns, ')') %>% setNames(columns)
+  #mutate_string <- paste0('as.factor(', columns, ')') %>% setNames(columns)
+  #x <- x %>% dplyr::mutate_(.dots=mutate_string)
 
-  x <- x %>% dplyr::mutate_(.dots=mutate_string)
+  x <- x %>% dplyr::mutate(dplyr::across(columns, as.factor))
 
   return ( x )
 
